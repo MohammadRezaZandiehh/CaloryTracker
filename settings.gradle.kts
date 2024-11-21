@@ -20,7 +20,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "CaloryTrackerProject"
-include(":app")
+include(/* Modules.app*/":app")
 include(":core")
 include(":tracker")
 include(":onboarding")
