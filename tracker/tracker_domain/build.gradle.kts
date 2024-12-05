@@ -6,7 +6,7 @@ plugins {
 apply(from = "$rootDir/base-module.gradle")
 
 android {
-    namespace = "com.example.calorytrackerproject.tracker_domain"
+    namespace = "com.example.tracker_domain"
 }
 
 dependencies {
