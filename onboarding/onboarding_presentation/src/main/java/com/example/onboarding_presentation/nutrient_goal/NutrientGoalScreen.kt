@@ -1,6 +1,12 @@
-package com.example.onboarding_presentation.height
+package com.example.onboarding_presentation.nutrient_goal
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -11,17 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.core.util.UiEvent
 import com.example.core.R
+import com.example.core.util.UiEvent
 import com.example.core_ui.LocalSpacing
 import com.example.onboarding_presentation.UnitTextField
 import com.example.onboarding_presentation.components.ActionButton
 
 @Composable
-fun HeightScreen(
+fun NutrientGoalScreen(
     scaffoldState: ScaffoldState,
     onNavigate: (UiEvent.Navigate) -> Unit,
-    viewModel: HeightViewModel = hiltViewModel()
+    viewModel: NutrientGoalViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
     val context = LocalContext.current
@@ -34,10 +40,12 @@ fun HeightScreen(
                         message = event.message.asString(context)
                     )
                 }
+
                 else -> Unit
             }
         }
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -49,23 +57,53 @@ fun HeightScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(id = R.string.whats_your_height),
+                text = stringResource(id = R.string.what_are_your_nutrient_goals),
                 style = MaterialTheme.typography.h3
             )
 
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
 
             UnitTextField(
-                value = viewModel.height,
-                onValueChange = viewModel::onHeightEnter,
-                unit = stringResource(id = R.string.cm)
+                value = viewModel.state.carbsRatio,
+                onValueChange = {
+                    viewModel.onEvent(NutrientGoalEvent.OnCarbRatioEnter(it))
+                },
+                unit = stringResource(id = R.string.percent_carbs)
+            )
+
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
+            UnitTextField(
+                value = viewModel.state.proteinRatio,
+                onValueChange = {
+                    viewModel.onEvent(NutrientGoalEvent.OnProteinRatioEnter(it))
+                },
+                unit = stringResource(id = R.string.percent_proteins)
+            )
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
+            UnitTextField(
+                value = viewModel.state.fatRatio,
+                onValueChange = {
+                    viewModel.onEvent(NutrientGoalEvent.OnFatRatioEnter(it))
+                },
+                unit = stringResource(id = R.string.percent_fats)
             )
         }
 
         ActionButton(
             text = stringResource(id = R.string.next),
-            onClick = viewModel::onNextClick,
+            onClick = {
+                viewModel.onEvent(NutrientGoalEvent.OnNextClick)
+            },
             modifier = Modifier.align(Alignment.BottomEnd)
         )
     }
 }
+
+
+
+
+
+
+
+
+
