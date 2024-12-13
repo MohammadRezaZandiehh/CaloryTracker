@@ -17,7 +17,7 @@ import com.example.core_ui.CarbColor
 import com.example.core_ui.FatColor
 import com.example.core_ui.LocalSpacing
 import com.example.core_ui.ProteinColor
-import com.example.tracker_presentation.componenet.UnitDisplay
+import com.example.tracker_presentation.component.UnitDisplay
 import com.example.tracker_presentation.tracker_overview.TrackerOverviewState
 import com.example.core.R
 

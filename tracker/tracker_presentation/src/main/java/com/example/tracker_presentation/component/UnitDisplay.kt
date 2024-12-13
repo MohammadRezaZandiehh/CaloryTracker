@@ -1,4 +1,4 @@
-package com.example.tracker_presentation.componenet
+package com.example.tracker_presentation.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
