@@ -21,7 +21,6 @@ import com.example.core.util.UiEvent
 import com.example.core_ui.LocalSpacing
 import com.example.search.SearchEvent
 import com.example.search.SearchViewModel
-import com.plcoding.tracker_presentation.search.components.SearchTextField
 
 @ExperimentalComposeUiApi
 @Composable

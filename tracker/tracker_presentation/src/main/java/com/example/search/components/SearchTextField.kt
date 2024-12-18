@@ -1,4 +1,4 @@
-package com.plcoding.tracker_presentation.search.components
+package com.example.search.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,8 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.plcoding.core_ui.LocalSpacing
-import com.plcoding.core.R
+import com.example.core.R
+import com.example.core_ui.LocalSpacing
 
 @Composable
 fun SearchTextField(

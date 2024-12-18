@@ -9,7 +9,7 @@ sealed class SearchEvent {
     object OnSearch: SearchEvent()
     data class OnToggleTrackableFood(val food: TrackableFood): SearchEvent()
     data class OnAmountForFoodChange(
-        val amountFood: String,
+        val amount: String,
         val food: TrackableFood
     ): SearchEvent()
     data class OnTrackFoodClick(
