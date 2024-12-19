@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.use_case.FilterOutDigits
 import com.example.core.util.UiEvent
+import com.example.core.util.UiText
 import com.example.tracker_domain.use_case.TrackerUseCases
+import com.example.core.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -26,7 +28,6 @@ class SearchViewModel @Inject constructor(
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
-
 
     fun onEvent(event: SearchEvent) {
         when(event) {
@@ -47,14 +48,9 @@ class SearchViewModel @Inject constructor(
                 executeSearch()
             }
 
-            //Todo it's different with Philipp code base.
             is SearchEvent.OnToggleTrackableFood -> {
                 state = state.copy(
-//                    trackableFood = state.trackableFood.map {
-//                        if (it.food == event.food)
-                            isExpandable = !state.isExpandable
-//                        else it
-//                    }
+                    isExpandable = !state.isExpandable
                 )
             }
 
@@ -65,17 +61,44 @@ class SearchViewModel @Inject constructor(
             }
 
             is SearchEvent.OnTrackFoodClick -> {
-                trackFood()
+                trackFood(event = event)
             }
+        }
+    }
+
+
+    private fun executeSearch() {
+        viewModelScope.launch {
+            state = state.copy(
+                isSearching = true,
+                trackableFood = emptyList()
+            )
+            trackerUseCases
+                .searchFood(state.query)
+                .onSuccess { foods ->
+                    state = state.copy(
+                        trackableFood = foods,
+                        isSearching = false,
+                        query = ""
+                    )
+                }
+                .onFailure {
+                    state = state.copy(isSearching = false)
+                    _uiEvent.send(
+                        UiEvent.ShowSnackbar(
+                            UiText.StringResource(R.string.error_something_went_wrong)
+                        )
+                    )
+                }
         }
     }
 
     private fun trackFood(event: SearchEvent.OnTrackFoodClick) {
         viewModelScope.launch {
-            val uiState = state.trackableFood.find { it.food == event.food }
+            val uiState = state.trackableFood.find { it == event.food }
             trackerUseCases.trackFood(
-                food = uiState?.food ?: return@launch,
-                amount = uiState.amount.toIntOrNull() ?: return@launch,
+                food = uiState ?: return@launch,
+                amount = state.amount.toIntOrNull() ?: return@launch,
                 mealType = event.mealType,
                 date = event.date
             )
