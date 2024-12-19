@@ -37,10 +37,14 @@ class SearchViewModel @Inject constructor(
                 )
             }
 
-            //Todo it's different with Philipp code base.
             is SearchEvent.OnAmountForFoodChange -> {
                 state = state.copy(
-                    amount = event.amountFood
+                    trackableFood = state.trackableFood.map {
+                        if (it.food == event.food)
+                            it.copy(amount = event.amountFood)
+                        else
+                            it
+                    }
                 )
             }
 
@@ -50,7 +54,11 @@ class SearchViewModel @Inject constructor(
 
             is SearchEvent.OnToggleTrackableFood -> {
                 state = state.copy(
-                    isExpandable = !state.isExpandable
+                    trackableFood = state.trackableFood.map {
+                        if (it.food == event.food) {
+                            it.copy(isExpandable = !state.isSearching)
+                        } else it
+                    }
                 )
             }
 
@@ -77,9 +85,10 @@ class SearchViewModel @Inject constructor(
                 .searchFood(state.query)
                 .onSuccess { foods ->
                     state = state.copy(
-                        trackableFood = foods,
+                        trackableFood = foods.map {
+                            TrackableFoodUiState(it)
+                        },
                         isSearching = false,
-                        query = ""
                     )
                 }
                 .onFailure {
@@ -95,10 +104,10 @@ class SearchViewModel @Inject constructor(
 
     private fun trackFood(event: SearchEvent.OnTrackFoodClick) {
         viewModelScope.launch {
-            val uiState = state.trackableFood.find { it == event.food }
+            val uiState = state.trackableFood.find { it.food == event.food }
             trackerUseCases.trackFood(
-                food = uiState ?: return@launch,
-                amount = state.amount.toIntOrNull() ?: return@launch,
+                food = uiState?.food ?: return@launch,
+                amount = uiState.amount.toIntOrNull() ?: return@launch,
                 mealType = event.mealType,
                 date = event.date
             )
