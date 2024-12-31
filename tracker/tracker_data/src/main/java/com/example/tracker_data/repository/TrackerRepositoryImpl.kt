@@ -17,7 +17,7 @@ class TrackerRepositoryImpl(
     private val dao: TrackerDao,
     private val api: OpenFoodApi
 ): TrackerRepository {
-    override suspend fun searchFod(
+    override suspend fun searchFood(
         query: String,
         page: Int,
         pageSize: Int

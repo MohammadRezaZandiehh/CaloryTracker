@@ -15,7 +15,7 @@ class SearchFood(
             return Result.success(emptyList())
         }
 
-        return repository.searchFod(
+        return repository.searchFood(
             query = query,
             page = page,
             pageSize = pageSize

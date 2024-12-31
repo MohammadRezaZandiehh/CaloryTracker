@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface TrackerRepository {
-    suspend fun searchFod(
+    suspend fun searchFood(
         query: String,
         page: Int,
         pageSize: Int
