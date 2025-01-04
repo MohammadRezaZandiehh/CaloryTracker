@@ -16,4 +16,7 @@ dependencies {
 
     implementation(Coil.coilCompose)
     implementation(Compose.uiToolingPreview)
+    implementation(libs.androidx.runner)
+    androidTestImplementation(project(":app"))
+    androidTestImplementation(project(":app"))
 }

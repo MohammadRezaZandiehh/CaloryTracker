@@ -5,7 +5,7 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="NutrientBarInfoWithinGoalDarkPreview">
+      <SelectionState runConfigName="TrackerOverviewE2E">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
